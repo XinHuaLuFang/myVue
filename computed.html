@@ -11,8 +11,22 @@
         <p>The lenght of reversedMessage: "{{ other }}"</p>
         <p>Now: "{{ now }}"</p>
     </div>
+
+    <div id="demo1">{{ fullName }}</div>
+    <div id="demo2">{{ fullname }}</div>
+
+    <!--Watchers-->
+    <div id="watch-example">
+        <p>
+            Ask a yes/no question:
+            <input v-model="question">
+        </p>
+        <p>{{ answer }}</p>
+    </div>
 </body>
 <script src="vue.js"></script>
+<script src="axios.min.js"></script>
+<script src="lodash.min.js"></script>
 <script>
     var vm = new Vue({
         el: '#example',
@@ -29,6 +43,70 @@
             now: function() {
                 return Date.now()
             }
+        }
+    });
+    var vm1 = new Vue({
+        el: '#demo1',
+        data: {
+            firstName: 'Foo',
+            lastName: 'Bar',
+            fullName: 'Foo Bar'
+        },
+        watch: {
+            firstName: function(val) {
+                this.fullName = val + ' ' + this.lastName
+            },
+            lastName: function(val) {
+                this.fullName = this.firstName + ' ' + val
+            }
+        }
+    });
+    var vm2 = new Vue({
+        el: '#demo2',
+        data: {
+            firstname: 'aa',
+            lastname: 'bb'
+        },
+        computed: {
+            fullname: {
+                get: function() {
+                    return this.firstname + ' ' + this.lastname
+                },
+                set: function(newValue) {
+                    var names = newValue.split(' ');
+                    this.firstname = names[0];
+                    this.lastname = names[names.length - 1];
+                }
+            }
+        }
+    });
+    var watchExampleVM = new Vue({
+        el: '#watch-example',
+        data: {
+            question: '',
+            answer: 'I cannot give you an answer until you ask a question!'
+        },
+        watch: {
+            // 如果 question 发生改变，此函数就会执行
+            question: function(newQuestion) {
+                this.answer = 'Waiting for you to stop typing...';
+                this.getAnswer()
+            }
+        },
+        methods: {
+            getAnswer: _.debounce(function() {
+                if (this.question.indexOf('?') === -1) {
+                    this.answer = 'Questions usually contain a question mark.';
+                    return
+                }
+                this.answer = 'Thinking...';
+                var vm = this;
+                axios.get('https://yesno.wtf/api').then(function(res) {
+                    vm.answer = _.capitalize(res.data.answer);
+                }).catch(function(error) {
+                    vm.answer = 'Error! Could not reach the API. ' + error
+                });
+            }, 500)
         }
     });
 </script>
