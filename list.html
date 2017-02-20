@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul id="example-1">
+        <li v-for="item in items">{{ item.message }}</li>
+    </ul>
+
+    <ul id="example-2">
+        <li v-for="(item, index) in items">
+            {{ parentMessage }} - {{ index }} - {{ item.message }}
+        </li>
+    </ul>
+
+    <ul id="repeat-object">
+        <li v-for="(value, key, index) in object">{{ index }}. {{ key }} : {{ value }}</li>
+    </ul>
+
+    <div id="todo-list-example">
+        <input v-model="newTodoText" v-on:keyup.enter="addNewTodo" placeholder="Add a todo">
+        <ul>
+            <li is="todo-item" v-for="(todo, index) in todos" v-bind:title="todo" v-on:remove="todos.splice(index, 1)"></li>
+        </ul>
+    </div>
+
+    <ul id="sort1">
+        <li v-for="n in evenNumbers">{{ n }}</li>
+    </ul>
+
+    <ul id="sort2">
+        <li v-for="n in even(numbers)">{{ n }}</li>
+    </ul>
+</body>
+<script src="vue.js"></script>
+<script>
+    var example1 = new Vue({
+        el: '#example-1',
+        data: {
+            items: [
+                { message: 'Foo' },
+                { message: 'Bar' }
+            ]
+        }
+    });
+
+    var example2 = new Vue({
+        el: '#example-2',
+        data: {
+            parentMessage: 'Parent',
+            items: [
+                { message: 'Foo' },
+                { message: 'Bar' }
+            ]
+        }
+    });
+
+    new Vue({
+        el: '#repeat-object',
+        data: {
+            object: {
+                firstName: 'Foo',
+                lastName: 'Bar',
+                age: '30'
+            }
+        }
+    });
+
+    Vue.component('todo-item', {
+        template: '\
+        <li>\
+            {{ title }}\
+            <button v-on:click="$emit(\'remove\')">X</button>\
+        </li>\
+        ',
+        props: ['title']
+    });
+    new Vue({
+        el: '#todo-list-example',
+        data: {
+            newTodoText: '',
+            todos: [
+                'Do the dishes',
+                'Take out the trash',
+                'Now the lawn'
+            ]
+        },
+        methods: {
+            addNewTodo: function() {
+                this.todos.push(this.newTodoText);
+                this.newTodoText = '';
+            }
+        }
+    });
+//    todo-item 的实现
+
+    new Vue({
+        el: '#sort1',
+        data: {
+            numbers: [1, 2, 3, 4, 5]
+        },
+        computed: {
+            evenNumbers: function() {
+                return this.numbers.filter(function(number) {
+                    return number % 2 === 0
+                });
+            }
+        }
+    });
+
+    new Vue({
+        el: '#sort2',
+        data: {
+            numbers: [1, 2, 3, 4, 5]
+        },
+        methods: {
+            even: function(numbers) {
+                return numbers.filter(function(number) {
+                    return number % 2 === 0;
+                });
+            }
+        }
+    });
+</script>
+</html>
