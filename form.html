@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>文本</h3>
+    <div id="example-1">
+        <input v-model="message" placeholder="edit me">
+        <p>Message is: {{ message }}</p>
+    </div>
+
+    <h3>多行文本</h3>
+    <div id="example-2">
+        <span>Multiline message is:</span>
+        <p style="white-space: pre">{{ message }}</p>
+        <br>
+        <textarea v-model="message" placeholder="add multiple lines"></textarea>
+    </div>
+
+    <h3>复选框</h3>
+    <div id="example-3">
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{ checked }}</label>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    var example1 = new Vue({
+        el: '#example-1',
+        data: {
+            message: ''
+        }
+    });
+
+    var example2 = new Vue({
+        el: '#example-2',
+        data: {
+            message: ''
+        }
+    });
+
+    var example3 = new Vue({
+        el: '#example-3',
+        data: {
+            checked: false
+        }
+    });
+</script>
+</html>
