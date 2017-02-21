@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>data 必须是函数</h3>
+    <div id="example-1">
+        <simple-counter></simple-counter>
+        <simple-counter></simple-counter>
+        <simple-counter></simple-counter>
+    </div>
+
+    <h3>每个counter有自己的状态</h3>
+    <div id="example-2">
+        <simple-counter-a></simple-counter-a>
+        <simple-counter-a></simple-counter-a>
+        <simple-counter-a></simple-counter-a>
+    </div>
+
+    <h3>Prop</h3>
+    <div id="example-3">
+        <child message="hello"></child>
+    </div>
+
+    <h3>camelCase vs kebab-case</h3>
+    <div id="example-4">
+        <childa my-message="hello"></childa>
+    </div>
+
+    <h3>动态Prop</h3>
+    <div id="example-5">
+        <input v-model="parentMsg">
+        <br>
+        <childb v-bind:my-message="parentMsg"></childb>
+    </div>
+
+    <h3>使用v-on绑定自定义事件</h3>
+    <div id="counter-event-example">
+        <p>{{ total }}</p>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+    </div>
+
+    <div>货币输入</div>
+    <div id="example-6">
+        <currency-input v-model="price"></currency-input>
+    </div>
+
+</body>
+<script src="vue.js"></script>
+<script>
+    var data = { counter: 0 };
+    Vue.component('simple-counter', {
+        template: '<button v-on:click="counter += 1">{{ counter }}</button>',
+        data: function() {
+            return data
+        }
+    });
+    new Vue({
+        el: '#example-1'
+    });
+    Vue.component('simple-counter-a', {
+        template: '<button v-on:click="counter += 1">{{ counter }}</button>',
+        data: function() {
+            return {
+                counter: 0
+            }
+        }
+    });
+    new Vue({
+        el: '#example-2'
+    });
+    Vue.component('child', {
+        props: ['message'],
+        template: '<span>{{ message }}</span>'
+    });
+    new Vue({
+        el: '#example-3'
+    });
+    Vue.component('childa', {
+        props: ['myMessage'],
+        template: '<span>{{ myMessage }}</span>'
+    });
+    new Vue({
+        el: '#example-4'
+    });
+    new Vue({
+        el: '#example-5',
+        data: {
+            parentMsg: 'Message from parent'
+        },
+        components: {
+            childb: {
+                props: ['myMessage'],
+                template: '<span>{{ myMessage }}</span>'
+            }
+        }
+    });
+    Vue.component('button-counter', {
+        template: '<button v-on:click="increment">{{ counter }}</button>',
+        data: function() {
+            return {
+                counter: 0
+            }
+        },
+        methods: {
+            increment: function() {
+                this.counter += 1;
+                this.$emit('increment');
+            }
+        }
+    });
+    new Vue({
+        el: '#counter-event-example',
+        data: {
+            total: 0
+        },
+        methods: {
+            incrementTotal: function() {
+                this.total += 1;
+            }
+        }
+    });
+    Vue.component('currency-input', {
+        template: `
+            <span>$<input ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)"></span>
+        `,
+        props: ['value'],
+        methods: {
+            updateValue: function(value) {
+                var formattedValue = value.trim().slice(0, value.indexOf('.') + 3);
+                if (formattedValue != value) {
+                    this.$refs.input.value = formattedValue;
+                }
+                this.$emit('input', Number(formattedValue));
+            }
+        }
+    });
+    new Vue({
+        el: '#example-6'
+    });
+</script>
+</html>

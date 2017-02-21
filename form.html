@@ -23,6 +23,65 @@
     <div id="example-3">
         <input type="checkbox" id="checkbox" v-model="checked">
         <label for="checkbox">{{ checked }}</label>
+        <br>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Chekced names: {{ checkedNames }}</span>
+    </div>
+
+    <h3>单选按钮</h3>
+    <div id="example-4">
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+    </div>
+
+    <h3>选择列表</h3>
+    <div id="example-5">
+        <select v-model="selected">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+    </div>
+
+    <h3>多选列表</h3>
+    <div id="example-6">
+        <select v-model="selectedd" multiple>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+        <span>Selectedd: {{ selectedd }}</span>
+    </div>
+
+    <h3>动态选项 v-for 渲染</h3>
+    <div id="example-7">
+        <select v-model="selecteda">
+            <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
+        </select>
+        <span>Selected: {{ selecteda }}</span>
+    </div>
+
+    <h3>v-bind</h3>
+    <div id="example-8">
+        <input type="checkbox" v-model="toggleA" v-bind:true-value="a" v-bind:false-value="b">
+        <span>toggleA: {{ toggleA }}</span>
+        <br>
+        <input type="radio" v-model="pick" v-bind:value="a">
+        <input type="radio" v-model="pick" v-bind:value="b">
+        <span>pick: {{ pick }}</span>
     </div>
 </body>
 <script src="vue.js"></script>
@@ -44,7 +103,51 @@
     var example3 = new Vue({
         el: '#example-3',
         data: {
-            checked: false
+            checked: false,
+            checkedNames: []
+        }
+    });
+
+    var example4 = new Vue({
+        el: '#example-4',
+        data: {
+            picked: 'One'
+        }
+    });
+
+    var example5 = new Vue({
+        el: '#example-5',
+        data: {
+            selected: ''
+        }
+    });
+
+    var example6 = new Vue({
+        el: '#example-6',
+        data: {
+            selectedd: []
+        }
+    });
+
+    var example7 = new Vue({
+        el: "#example-7",
+        data: {
+            selecteda: 'B',
+            options: [
+                { text: 'One', value: 'A' },
+                { text: 'Two', value: 'B' },
+                { text: 'Three', value: 'C' }
+            ]
+        }
+    });
+
+    var example8 = new Vue({
+        el: '#example-8',
+        data: {
+            toggleA: '',
+            a: 'a',
+            b: 'b',
+            pick: ''
         }
     });
 </script>
