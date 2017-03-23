@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="example">
+    <my-component abc="hello" def="world"></my-component>
+</div>
+</body>
+<script src="../vue.js"></script>
+<script>
+    Vue.component('my-component', {
+        props: ['abc', 'def'],
+        template: '<div><p>{{abc}}</p><span>{{def}}</span></div>'
+    });
+    new Vue({
+        el: '#example'
+    });
+</script>
+</html>

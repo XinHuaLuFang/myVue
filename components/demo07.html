@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="example">
+    <my-component label="Price" v-model="price"></my-component>
+    <my-component label="Shipping" v-model="shipping"></my-component>
+    <my-component label="Handling" v-model="handling"></my-component>
+    <my-component label="Discount" v-model="discount"></my-component>
+    <p>Total: {{ total }}</p>
+</div>
+</body>
+<script src="../vue.js"></script>
+<script>
+Vue.component('my-component', {
+    template: `
+        <div>
+            <label v-if="label">{{label}}</label>
+            <input ref="inputref" v-bind:value="value" v-on:input="updateValue($event.target.value)" v-on:focus="selectAll" v-on:blur="formatValue">
+        </div>
+    `,
+    props: {
+        value: {
+            default: 0
+        },
+        label: {
+            type: String,
+            default: ''
+        }
+    },
+    methods: {
+        updateValue: function(value) {
+            this.$refs.inputref.value = value
+            this.$emit('input', value)
+        },
+        selectAll: function() {
+            console.log('focus')
+        },
+        formatValue: function() {
+            console.log('blur')
+        }
+    }
+});
+new Vue({
+    el: '#example',
+    data: {
+        price: 0,
+        shipping: 0,
+        handling: 0,
+        discount: 0
+    },
+    computed: {
+        total: function() {
+            return ((this.price*100 + this.shipping*100 + this.handling*100 - this.discount*100)/100).toFixed(2)
+        }
+    }
+});
+</script>
+</html>

@@ -1,33 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
 </head>
 <body>
     <div id="app">
-        <h1>Hello App!</h1>
-        <p>
-            <router-link to="/foo">Go to Foo</router-link>
-            <router-link to="/bar">Go to Bar</router-link>
-        </p>
+        <router-link to="/a">A</router-link>
+        <router-link to="/b">B</router-link>
         <router-view></router-view>
     </div>
-</body>
 <script src="../vue.js"></script>
 <script src="../vue-router.js"></script>
 <script>
-    const Foo = { template: '<div>foo</div>' };
-    const Bar = { template: '<div>bar</div>' };
+    const A = { template: "<div>AAA</div>"}
+    const B = { template: "<div>BBB</div>"}
     const routes = [
-        { path: '/foo', component: Foo },
-        { path: '/bar', component: Bar }
-    ];
-    const router = new VueRouter({
-        routes: routes
-    });
+        { path: '/a', component: A },
+        { path: '/b', component: B }
+    ]
+    const router = new  VueRouter({
+        routes
+    })
     const app = new Vue({
-        router: router
-    }).$mount('#app');
+        el: '#app',
+        router
+    })
 </script>
+</body>
 </html>

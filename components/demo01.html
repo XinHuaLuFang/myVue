@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="example">
+    <my-component v-on:click="doThing"></my-component>
+</div>
+</body>
+<script src="../vue.js"></script>
+<script>
+    Vue.component('my-component', {
+        template: '<p v-on:click="todo">A custom component!</p>',
+        methods: {
+            todo: function() {
+                console.log("child")
+                this.$emit('click')
+            }
+        }
+    });
+    new Vue({
+        el: '#example',
+        methods: {
+            doThing: function() {
+                console.log("parent")
+            }
+        }
+    });
+</script>
+</html>
